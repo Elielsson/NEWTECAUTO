@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+ 
+
+
+
+
+
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>Oficina Integrada</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+<link href="tema/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="tema/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="tema/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="tema/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<link href="tema/assets/global/plugins/select2/select2.css" rel="stylesheet" type="text/css"/>
+<link href="tema/assets/global/plugins/select2/select2-bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="tema/assets/global/plugins/bootstrap-sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
+<script src="tema/assets/global/plugins/bootstrap-sweetalert2/sweetalert2.min.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN THEME GLOBAL STYLES -->
+<link href="tema/assets/global/css/components.css" rel="stylesheet" id="style_components" type="text/css" />
+<link href="tema/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+<!-- END THEME GLOBAL STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link href="tema/assets/pages/css/login.css" rel="stylesheet" type="text/css" />
+<!-- END PAGE LEVEL STYLES -->
+<!-- BEGIN THEME LAYOUT STYLES -->
+<!-- END THEME LAYOUT STYLES -->
+<link rel="shortcut icon" href="favicon_oficinaintegrada.ico" />
+<script>var w=window;var p = w.location.protocol;if(p.indexOf("http") < 0){p = "http"+":";}var d = document;var f = d.getElementsByTagName('script')[0],s = d.createElement('script');s.type = 'text/javascript'; s.async = false; if (s.readyState){s.onreadystatechange = function(){if (s.readyState=="loaded"||s.readyState == "complete"){s.onreadystatechange = null;try{loadwaprops('3z092467059da6fa8b1eca5431f6e6c42a','3z90a6c0c29a6848e44fceb64c87716136','3zac7592e3bb95f3a5d601de626ec5fe5d7bbaca30731ce955da948b152e331ab0','3zd8a5a304ee279b30d64f199edcc37bd40956fa21d582b059802819214ee5684d',0.0);}catch(e){}}};}else {s.onload = function(){try{loadwaprops('3z092467059da6fa8b1eca5431f6e6c42a','3z90a6c0c29a6848e44fceb64c87716136','3zac7592e3bb95f3a5d601de626ec5fe5d7bbaca30731ce955da948b152e331ab0','3zd8a5a304ee279b30d64f199edcc37bd40956fa21d582b059802819214ee5684d',0.0);}catch(e){}};};s.src =p+'//ma.zoho.com/hub/js/WebsiteAutomation.js'; f.parentNode.insertBefore(s, f);</script>
+</head>
+<!-- END HEAD -->
+
+
+
+<SCRIPT>
+		function createXMLHTTP(){
+		try{
+		myObj = new XMLHttpRequest()
+		}catch(e)
+		{
+		myObj = new ActiveXObject("Microsoft.XMLHTTP"); 
+		}
+
+		return myObj;
+		}
+		</SCRIPT>
+
+<SCRIPT>
+	var createCookie = function(name, value, days) {
+		var expires;
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			expires = "; expires=" + date.toGMTString();
+		}
+		else {
+			expires = "";
+		}
+		document.cookie = name + "=" + value + expires + "; path=/";
+	}
+
+	function getCookie(c_name) {
+		if (document.cookie.length > 0) {
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1) {
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";", c_start);
+				if (c_end == -1) {
+					c_end = document.cookie.length;
+				}
+				return unescape(document.cookie.substring(c_start, c_end));
+			}
+		}
+		return "";
+	}
+
+function recuperarSenha(){
+	$("#loading").show();
+	$.ajax({
+		method: "POST",
+		url:"ws_call/GERENCIA_LOGIN.asp",
+		data:{					
+			chaveRecuperar: $("#chaveRecuperar").val(),
+			emailRecuperar: $("#emailRecuperar").val(),
+			acao: "RECUPERA_SENHA"
+		},
+		success:function(data){
+			$("#loading").hide();
+			divRecuperar.innerHTML = data;			
+		}
+	});
+}
+function logar(){
+	$('#btnLogar').hide();
+	var url2 ="ajax_logar.asp";
+	// pegando os campos do formulário
+	var chave2 = document.getElementById("chave").value;
+	var usuario2 = document.getElementById("usuario").value;
+	var senha2 = document.getElementById("senha").value;
+	var liberar2 = 0;
+	if ( $( "#liberar" ).length ) {
+		liberar2 = $( "#liberar" ).val();
+				}
+	$.ajax({
+			method: "POST",
+			url: url2,
+			data:{
+				CHAVE: chave2,
+				USUARIO: usuario2,
+				SENHA: senha2,
+				LIBERAR: liberar2,
+			},
+			beforeSend:function(){
+				swal({
+				  type: 'success',
+				  title: 'Realizando atualizações!',
+				  html: 'Por favor, aguarde...',
+				  timer: 50000000,
+				  allowOutsideClick: false,
+				  timerProgressBar: true,
+				  onBeforeOpen: function(){
+					swal.showLoading()
+				  },
+				  onClose: function (){
+					clearInterval()
+				  }
+				})
+			},
+			success:function(data){
+				divLOGAR.innerHTML = data;
+				
+				resposta = data;
+			
+				if (resposta=='liberar'){
+					
+					$.post( "liberar.asp", {chave:chave2,  usuario:usuario2 , senha:senha2}, function(data){
+						$('.login-form').html(data)
+					});
+				}
+				$('.swal2-container').remove();
+				if(resposta=='Mysql'){
+					
+					$.post( "ERRO_MYSQL.asp", {chave:chave2,  usuario:usuario2 , senha:senha2}, function(data){
+						$('.login-form').html(data)
+					});
+				}
+			
+				if (resposta=='logou'){
+					
+					if ($('input[name=remember]').prop('checked')){
+						createCookie('useroficinaint', usuario2, 9999);
+						createCookie('chaveoficinaint', chave2, 9999);
+					}
+					window.location.href = "default.asp";	
+				}else {
+					
+					$('#btnLogar').show();
+				}
+			}
+		});
+
+}
+
+
+function logar2() {
+	$('#btnLogar').hide();	
+				// aqui vai excluir 
+				var Ajax = createXMLHTTP();
+				var url ="ajax_logar.asp";
+				// pegando os campos do formulário
+				var chave = document.getElementById("chave").value;
+				var usuario = document.getElementById("usuario").value;
+				var senha = document.getElementById("senha").value;
+				var liberar = 0;
+				if ( $( "#liberar" ).length ) {
+					liberar = $( "#liberar" ).val();
+				}
+				//parâmetros a serem enviados
+				/////var params = "PECA=2"; 
+				var params = "chave="+chave+"&usuario="+usuario+"&senha="+senha+"&liberar="+liberar;
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+				params = params.replace(" ","%20")
+
+				//envia para a página que fará o select do que foi digitado e responderá com o status da ação
+				Ajax.open("post", url, true);
+				Ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=iso-8859-1");
+				Ajax.onreadystatechange=function(){
+				
+				if (Ajax.readyState==4){
+				// exibe o texto gerado no arquivo cadastra.asp e colocado dentro da divResposta
+				divLOGAR.innerHTML = Ajax.responseText;
+				
+					resposta = Ajax.responseText;
+				
+					if (resposta=='liberar'){
+						$.post( "liberar.asp", {chave:chave,  usuario:usuario , senha:senha}, function(data){
+							$('.login-form').html(data)
+						});
+					}
+					if(resposta=='Mysql'){
+						$.post( "ERRO_MYSQL.asp", {chave:chave,  usuario:usuario , senha:senha}, function(data){
+							$('.login-form').html(data)
+						});
+					}
+				
+					if (resposta=='logou'){
+						if ($('input[name=remember]').prop('checked')){
+							createCookie('useroficinaint', usuario, 9999);
+							createCookie('chaveoficinaint', chave, 9999);
+						}
+						window.location.href = "default.asp";	
+					}else {
+						$('#btnLogar').show();
+					}
+				}}
+				
+				
+				
+			
+					 
+				
+				//envia os parametros setados acima
+				//divLOGAR.innerHTML = Ajax.responseText;}}
+				
+				
+				Ajax.send(params);
+			
+			//return resposta;
+
+			
+			}
+	
+
+		//document.getElementById("bandeiraindicadora").style.color = resposta;	
+
+
+
+</SCRIPT>
+
+
+
+
+
+<!-- BEGIN BODY -->
+<body class="login">
+    
+    
+    
+    
+  
+    
+<!-- BEGIN LOGO -->
+<div class="logo">
+	<a>
+	<img src="tema/assets/admin/layout2/img/logo-big-white.png" alt=""/>
+	</a>
+    
+   
+    
+    
+    
+</div>
+<!-- END LOGO -->
+<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+<div class="menu-toggler sidebar-toggler">
+</div>
+<!-- END SIDEBAR TOGGLER BUTTON -->
+<!-- BEGIN LOGIN -->
+<div class="content">
+
+
+<noscript>
+ Seu navegador est&aacute; com o JavaScript desabilitado, por esse motivo n&atilde;o ser&aacute; possivel logar no sistema nem usufruir de todos os recursos<br>
+ <a href="https://enable-javascript.com/pt/" target="_blank">
+ Veja aqui como habilitar o JavaScript</a>.
+</noscript>
+    <div id="mensagem">&nbsp; </div>
+    
+ <!--   <script>
+    var navegadores = "";
+        
+   if (navegadores = navigator.userAgent.indexOf('Firefox') > -1) {
+    //document.getElementById("mensagem").innerHTML = "Mozilla Firefox";
+     
+} else {
+    
+   document.getElementById("mensagem").innerHTML = "Atenção: Seu navegador não é 100% compatível. <br> Você deve utilizar o navegador Mozilla Firefox para ter acesso a todas as funcionalidades do sistema.";  
+    
+}
+        
+     
+        
+/*        
+
+if (navegadores = navigator.userAgent.toLowerCase().indexOf('op') > -1) {
+    document.getElementById("browser").innerHTML = "Opera";
+}else if (navegadores = navigator.userAgent.indexOf('MSIE') > -1) {
+    document.getElementById("browser").innerHTML = "Internet Explorer ou Edge";
+
+}else if (navegadores = navigator.userAgent.indexOf('Firefox') > -1) {
+    document.getElementById("browser").innerHTML = "Mozilla Firefox";
+}else if (navegadores = navigator.userAgent.indexOf('Epiphany') > -1) {
+    document.getElementById("browser").innerHTML = "Epiphany";
+}else if (navegadores = navigator.userAgent.indexOf('Chrome') > -1) {
+    document.getElementById("browser").innerHTML = "Google Chome";
+}else if (navegadores = navigator.userAgent.indexOf('Safari') > -1) {
+    document.getElementById("browser").innerHTML = "Safari";
+}
+
+if ((chrome) && (safari)) safari = false;
+if ((chrome) && (opera)) chrome = false;
+if ((safari) && (epiphany)) safari = false;
+*/
+    
+    </script>   
+    
+  -->  
+    
+<script>
+var ie = (function(){
+
+    var undef,
+        v = 3,
+        div = document.createElement('div'),
+        all = div.getElementsByTagName('i');
+
+    while (
+        div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+        all[0]
+    );
+
+    return v > 4 ? v : undef;
+
+}());
+
+if (ie < 9 && ie != 'undefined'){
+   alert('Seu navegador está desatualizado! Por esse motivo o sistema pode não funcionar corretamente com todos os recursos.');
+}
+else{
+  // alert('novo');
+}
+</script>
+
+<script>
+	if (navigator.cookieEnabled === false){
+		alert("Seu navegador está com os Cookies desabilitados! Antes de logar no sistema você precisar habilitar os Cookies");
+	}
+</script>
+	<div>
+		<div id="loading" style="display:none;margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8;">
+			<p style="position: absolute; color: White; top: 50%; left: 45%;">
+			Carregando
+			<img src="loader.gif">
+			</p>
+		</div>
+		<form class="login-form" method="post">
+			<h3 class="form-title font-blue">Login</h3>
+			<div class="alert alert-danger display-hide">
+				<button class="close" data-close="alert"></button>
+				<span> Preencha todos os campos </span>
+			</div>
+			<div id="divLOGAR" style="color:red;" ></div>
+			<div class="form-group">			
+				<div class="input-icon">
+					<i class="fa fa-key"></i>
+					<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Chave" value="" id="chave" name="chave" /> 		
+				</div>
+			</div>
+			<div class="form-group">			
+				<div class="input-icon">
+					<i class="fa fa-user"></i>
+					<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Usu&aacute;rio" value="" id="usuario" name="usuario" /> 		
+				</div>
+			</div>
+			<div class="form-group">	
+				<div class="input-icon">
+					<i class="fa fa-lock"></i>
+					<input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Senha" id="senha" value="" name="senha" /> 			
+				</div>
+			</div>
+			<div class="form-actions">				
+				<label class="rememberme check mt-checkbox mt-checkbox-outline">
+					<input type="checkbox" name="remember" value="1" />Lembrar
+					<span></span>
+				</label>				
+				<a onClick="logar();" style="float:right;"id="btnLogar" class="btn blue uppercase">
+					Login
+					<i class="m-icon-swapright m-icon-white"></i>
+				</a>
+			</div>	
+			<a href="javascript:;" id="forget-password" class="forget-password">Esqueceu a senha?</a>
+			<a href="https://www.oficinaintegrada.com.br/software-gerencimento-oficina-mecanica/programa-gestao-oficina-mecanica-integrada/cadastra.asp" target="_blank" class="forget-password" style="float:left;">Cadastre-se</a>
+		</form>
+		<form class="forget-form" method="post">
+			<h3 class="font-green">Esqueceu a senha ?</h3>
+			<p> Insira seu e-mail abaixo para envio dos dados. </p>
+			<div id="divRecuperar" style="color:red;" ></div>
+			<div class="form-group">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Chave" id="chaveRecuperar" name="chaveRecuperar" /> 
+			</div>
+			<div class="form-group">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" id="emailRecuperar" name="emailRecuperar" /> 
+			</div>
+			<div class="form-actions">
+				<button type="button" id="back-btn" class="btn green btn-outline">Voltar</button>
+				<a type="submit" onClick="recuperarSenha();" class="btn btn-success uppercase pull-right">Enviar</a>
+			</div>
+		</form>
+	</div>
+
+
+
+	
+
+<div class="row">&nbsp;</div>
+
+	
+</div>
+<!-- END LOGIN -->
+<!-- BEGIN COPYRIGHT -->
+<div class="copyright">
+	 2020 &reg; Oficina Integrada
+</div>
+
+
+
+
+<script src="tema/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="tema/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+<script src="tema/assets/global/plugins/select2/select2.full.min.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN THEME GLOBAL SCRIPTS -->
+<script src="tema/assets/global/scripts/app.min.js" type="text/javascript"></script>
+<!-- END THEME GLOBAL SCRIPTS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="tema/assets/pages/scripts/login.min.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- BEGIN THEME LAYOUT SCRIPTS -->
+<!-- END THEME LAYOUT SCRIPTS -->
+<script>
+    $(document).ready(function () {
+    $('input').keypress(function (e) {
+    var code = null;
+    code = (e.keyCode ? e.keyCode : e.which);
+    return (code == 13) ? false : true;
+    });
+    });
+	
+	$(document).bind('keypress', function(e){
+  if(e.which === 13) { // return
+  return (code == 13) ? false : true;
+    logar();
+  }
+});
+
+	$("#chave").bind('keypress', function(e){
+  if(e.which === 13) { // return
+    logar();
+  return (code == 13) ? false : true;
+  
+  }
+});
+
+$("#usuario").bind('keypress', function(e){
+  if(e.which === 13) { // return
+   logar();
+  return (code == 13) ? false : true;
+
+  }
+});
+
+$("#senha").bind('keypress', function(e){
+  if(e.which === 13) { // return
+   logar();
+  return (code == 13) ? false : true;
+   
+  }
+});
+</script>
+<script>
+	$(document).on('ready', function(){
+		
+			if (getCookie('chaveoficinaint') !== "" && getCookie('chaveoficinaint') !== null){
+				$('#chave').val(getCookie('chaveoficinaint'));
+			}
+			if (getCookie('useroficinaint') !== "" && getCookie('useroficinaint') !== null){
+				$('#usuario').val(getCookie('useroficinaint'));
+			}
+		
+		
+		$('input[name=remember]').prop('checked', true);
+	});
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LeJfjonAAAAAKCaVJwrJJcfdTTkGxWsvIXwutKS"></script>
+  <script>
+  grecaptcha.ready(function() {
+      grecaptcha.execute('6LeJfjonAAAAAKCaVJwrJJcfdTTkGxWsvIXwutKS');
+  });
+  </script>
+
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>
